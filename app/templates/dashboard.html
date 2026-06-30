@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">
+        Welcome, {{ current_user.username }} 👋
+    </h2>
+
+    <div class="row">
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5>Total Reviews</h5>
+                    <h2>{{ total_reviews }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5>AI Reviews</h5>
+                    <h2>{{ ai_reviews }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5>GitHub Projects</h5>
+                    <h2>{{ github_projects }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow text-center">
+                <div class="card-body">
+                    <h5>Average Score</h5>
+                    <h2>{{ average_score }}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <hr class="my-5">
+
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body text-center">
+
+                    <h4>🤖 AI Code Review</h4>
+
+                    <p>Upload your source code for AI review.</p>
+
+                    <a href="{{ url_for('review.review_code') }}"
+                       class="btn btn-primary w-100">
+
+                        Review Code
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body text-center">
+
+                    <h4>📜 Review History</h4>
+
+                    <p>View all your previous AI code reviews.</p>
+
+                    <a href="{{ url_for('review.history') }}"
+                       class="btn btn-success w-100">
+
+                        View History
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card shadow h-100">
+
+                <div class="card-body text-center">
+
+                    <h4>🚪 Logout</h4>
+
+                    <p>Securely sign out of your account.</p>
+
+                    <a href="{{ url_for('auth.logout') }}"
+                       class="btn btn-danger w-100">
+
+                        Logout
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <hr class="my-5">
+
+    <div class="card shadow">
+
+        <div class="card-header">
+
+            <h4 class="mb-0">
+
+                Recent Reviews
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if recent_reviews %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Language</th>
+
+                            <th>Date</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for review in recent_reviews %}
+
+                        <tr>
+
+                            <td>#{{ review.id }}</td>
+
+                            <td>
+
+                                <span class="badge bg-primary">
+
+                                    {{ review.language|upper }}
+
+                                </span>
+
+                            </td>
+
+                            <td>{{ review.created_at }}</td>
+
+                            <td>
+
+                                <a href="{{ url_for('review.view_review', review_id=review.id) }}"
+                                   class="btn btn-sm btn-outline-primary">
+
+                                    View
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="text-center py-4">
+
+                <h5>No Reviews Yet</h5>
+
+                <p class="text-muted">
+
+                    Start by reviewing your first piece of code.
+
+                </p>
+
+                <a href="{{ url_for('review.review_code') }}"
+                   class="btn btn-primary">
+
+                    Review Code
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
