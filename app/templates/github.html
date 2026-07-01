@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}GitHub Repository Analyzer{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-lg">
+
+                <div class="card-header bg-dark text-white text-center">
+
+                    <h2>🐙 GitHub Repository Analyzer</h2>
+
+                </div>
+
+                <div class="card-body">
+
+                    <p class="text-muted text-center">
+
+                        Enter a public GitHub repository URL and let AI analyze the project.
+
+                    </p>
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+
+                    {% for category, message in messages %}
+
+                    <div class="alert alert-{{ category }}">
+
+                        {{ message }}
+
+                    </div>
+
+                    {% endfor %}
+
+                    {% endif %}
+                    {% endwith %}
+
+                    <form method="POST">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                GitHub Repository URL
+
+                            </label>
+
+                            <input
+                                type="url"
+                                class="form-control"
+                                name="repo_url"
+                                placeholder="https://github.com/username/repository"
+                                required>
+
+                        </div>
+
+                        <div class="d-grid">
+
+                            <button
+                                type="submit"
+                                class="btn btn-success btn-lg">
+
+                                🚀 Analyze Repository
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <div class="text-center mt-4">
+
+                <a
+                    href="{{ url_for('auth.dashboard') }}"
+                    class="btn btn-outline-secondary">
+
+                    ← Back to Dashboard
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

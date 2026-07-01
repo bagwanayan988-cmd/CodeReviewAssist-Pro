@@ -5,11 +5,12 @@ from config import Config
 from app.extensions import db, login_manager
 
 # Import models so SQLAlchemy creates all tables
-from app.models import User, Review
+from app.models import User, Review, GitHubReview
 
 # Blueprints
 from app.routes.auth import auth
 from app.routes.review import review
+from app.routes.github import github
 
 
 def create_app():
@@ -24,6 +25,7 @@ def create_app():
     # Register Blueprints
     app.register_blueprint(auth)
     app.register_blueprint(review)
+    app.register_blueprint(github)
 
     # Create Database Tables
     with app.app_context():

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}GitHub Analysis Result{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg">
+
+        <div class="card-header bg-success text-white">
+
+            <h2>✅ GitHub Repository Analysis</h2>
+
+        </div>
+
+        <div class="card-body">
+
+            <h5 class="mb-3">
+                Repository
+            </h5>
+
+            <div class="alert alert-secondary">
+
+                {{ repo_url }}
+
+            </div>
+
+            <hr>
+
+            <h4 class="mb-3">
+
+                🤖 AI Review
+
+            </h4>
+
+            <div class="border rounded p-4 bg-light">
+
+<pre style="white-space: pre-wrap; font-size:15px;">{{ review }}</pre>
+
+            </div>
+
+            <div class="mt-4">
+
+                <a
+                    href="{{ url_for('github.analyze_github') }}"
+                    class="btn btn-primary">
+
+                    Analyze Another Repository
+
+                </a>
+
+                <a
+                    href="{{ url_for('auth.dashboard') }}"
+                    class="btn btn-secondary">
+
+                    Dashboard
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

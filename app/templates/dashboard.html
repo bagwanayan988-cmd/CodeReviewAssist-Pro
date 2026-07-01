@@ -12,7 +12,7 @@
 
     <div class="row">
 
-        <div class="col-md-3 mb-3">
+        <div class="col-md-3">
             <div class="card shadow text-center">
                 <div class="card-body">
                     <h5>Total Reviews</h5>
@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <div class="col-md-3 mb-3">
+        <div class="col-md-3">
             <div class="card shadow text-center">
                 <div class="card-body">
                     <h5>AI Reviews</h5>
@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <div class="col-md-3 mb-3">
+        <div class="col-md-3">
             <div class="card shadow text-center">
                 <div class="card-body">
                     <h5>GitHub Projects</h5>
@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <div class="col-md-3 mb-3">
+        <div class="col-md-3">
             <div class="card shadow text-center">
                 <div class="card-body">
                     <h5>Average Score</h5>
@@ -52,17 +52,18 @@
 
     <hr class="my-5">
 
-    <div class="row">
+    <div class="row g-4">
 
-        <div class="col-md-4 mb-3">
-
+        <!-- AI Review -->
+        <div class="col-md-4">
             <div class="card shadow h-100">
-
                 <div class="card-body text-center">
 
                     <h4>🤖 AI Code Review</h4>
 
-                    <p>Upload your source code for AI review.</p>
+                    <p>
+                        Upload source code and get an AI review.
+                    </p>
 
                     <a href="{{ url_for('review.review_code') }}"
                        class="btn btn-primary w-100">
@@ -72,23 +73,80 @@
                     </a>
 
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-md-4 mb-3">
-
+        <!-- GitHub Analyzer -->
+        <div class="col-md-4">
             <div class="card shadow h-100">
+                <div class="card-body text-center">
+
+                    <h4>🐙 GitHub Analyzer</h4>
+
+                    <p>
+                        Analyze any public GitHub repository.
+                    </p>
+
+                    <a href="{{ url_for('github.analyze_github') }}"
+                       class="btn btn-success w-100">
+
+                        Analyze Repository
+
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Resume ATS -->
+        <div class="col-md-4">
+            <div class="card shadow h-100">
+                <div class="card-body text-center">
+
+                    <h4>📄 Resume ATS</h4>
+
+                    <p>
+                        Check your resume ATS score.
+                    </p>
+
+                    <a href="#"
+                       class="btn btn-warning w-100">
+
+                        Coming Soon
+
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <hr class="my-5">
+
+    <div class="row g-4">
+
+        <!-- Review History -->
+        <div class="col-md-6">
+
+            <div class="card shadow">
 
                 <div class="card-body text-center">
 
                     <h4>📜 Review History</h4>
+                    <a href="{{ url_for('github.history') }}"
+   class="btn btn-dark w-100 mt-2">
 
-                    <p>View all your previous AI code reviews.</p>
+    🐙 GitHub History
+
+</a>
+
+                    <p>
+                        View previous AI reviews.
+                    </p>
 
                     <a href="{{ url_for('review.history') }}"
-                       class="btn btn-success w-100">
+                       class="btn btn-info w-100">
 
                         View History
 
@@ -100,15 +158,18 @@
 
         </div>
 
-        <div class="col-md-4 mb-3">
+        <!-- Logout -->
+        <div class="col-md-6">
 
-            <div class="card shadow h-100">
+            <div class="card shadow">
 
                 <div class="card-body text-center">
 
                     <h4>🚪 Logout</h4>
 
-                    <p>Securely sign out of your account.</p>
+                    <p>
+                        Securely logout from your account.
+                    </p>
 
                     <a href="{{ url_for('auth.logout') }}"
                        class="btn btn-danger w-100">
@@ -141,91 +202,49 @@
 
         <div class="card-body">
 
-            {% if recent_reviews %}
+            <table class="table table-striped">
 
-            <div class="table-responsive">
+                <thead>
 
-                <table class="table table-hover">
+                    <tr>
 
-                    <thead>
+                        <th>Feature</th>
 
-                        <tr>
+                        <th>Status</th>
 
-                            <th>ID</th>
+                    </tr>
 
-                            <th>Language</th>
+                </thead>
 
-                            <th>Date</th>
+                <tbody>
 
-                            <th>Action</th>
+                    <tr>
 
-                        </tr>
+                        <td>AI Code Review</td>
 
-                    </thead>
+                        <td>✅ Active</td>
 
-                    <tbody>
+                    </tr>
 
-                        {% for review in recent_reviews %}
+                    <tr>
 
-                        <tr>
+                        <td>GitHub Analyzer</td>
 
-                            <td>#{{ review.id }}</td>
+                        <td>✅ Active</td>
 
-                            <td>
+                    </tr>
 
-                                <span class="badge bg-primary">
+                    <tr>
 
-                                    {{ review.language|upper }}
+                        <td>Resume ATS</td>
 
-                                </span>
+                        <td>🚧 Coming Soon</td>
 
-                            </td>
+                    </tr>
 
-                            <td>{{ review.created_at }}</td>
+                </tbody>
 
-                            <td>
-
-                                <a href="{{ url_for('review.view_review', review_id=review.id) }}"
-                                   class="btn btn-sm btn-outline-primary">
-
-                                    View
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        {% endfor %}
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-            {% else %}
-
-            <div class="text-center py-4">
-
-                <h5>No Reviews Yet</h5>
-
-                <p class="text-muted">
-
-                    Start by reviewing your first piece of code.
-
-                </p>
-
-                <a href="{{ url_for('review.review_code') }}"
-                   class="btn btn-primary">
-
-                    Review Code
-
-                </a>
-
-            </div>
-
-            {% endif %}
+            </table>
 
         </div>
 

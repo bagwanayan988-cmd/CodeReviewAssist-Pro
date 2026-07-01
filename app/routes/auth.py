@@ -14,6 +14,7 @@ from werkzeug.security import (
 from app.extensions import db
 from app.models.user import User
 from app.models.review import Review
+from app.models.github_review import GitHubReview
 
 auth = Blueprint("auth", __name__)
 
@@ -81,28 +82,33 @@ def login():
 @login_required
 def dashboard():
 
-    reviews = (
+    # AI Reviews
+    ai_reviews = (
         Review.query
         .filter_by(user_id=current_user.id)
-        .order_by(Review.created_at.desc())
         .all()
     )
 
-    total_reviews = len(reviews)
+    # GitHub Reviews
+    github_reviews = (
+        GitHubReview.query
+        .filter_by(user_id=current_user.id)
+        .all()
+    )
 
-    ai_reviews = total_reviews
+    total_reviews = len(ai_reviews) + len(github_reviews)
 
-    github_projects = 0
+    github_projects = len(github_reviews)
 
     average_score = "--"
 
     return render_template(
         "dashboard.html",
         total_reviews=total_reviews,
-        ai_reviews=ai_reviews,
+        ai_reviews=len(ai_reviews),
         github_projects=github_projects,
         average_score=average_score,
-        recent_reviews=reviews[:5]
+        recent_reviews=ai_reviews[:5]
     )
 
 
