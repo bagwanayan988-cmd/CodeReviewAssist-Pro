@@ -10,8 +10,9 @@ from app.services.ai_service import AIService
 
 class GitHubService:
     """
-    Handles downloading and preparing GitHub repositories
-    before sending them to AIService.
+    Handles downloading GitHub repositories,
+    fetching repository metadata,
+    and sending source code to AIService.
     """
 
     SUPPORTED_EXTENSIONS = {
@@ -30,17 +31,11 @@ class GitHubService:
         ".md",
     }
 
-    MAX_FILE_SIZE = 100 * 1024  # 100 KB
+    MAX_FILE_SIZE = 100 * 1024
     MAX_TOTAL_CHARS = 50000
 
     @staticmethod
     def analyze_repository(repo_url: str, language: str = "Repository"):
-        """
-        Downloads a public GitHub repository,
-        extracts source code,
-        sends it to AIService,
-        returns AI review.
-        """
 
         owner, repo = GitHubService._parse_repo_url(repo_url)
 
@@ -49,9 +44,7 @@ class GitHubService:
         response = requests.get(zip_url, timeout=30)
 
         if response.status_code != 200:
-            # try master branch
             zip_url = f"https://github.com/{owner}/{repo}/archive/refs/heads/master.zip"
-
             response = requests.get(zip_url, timeout=30)
 
         response.raise_for_status()
@@ -79,10 +72,38 @@ class GitHubService:
         )
 
     @staticmethod
+    def get_repository_info(repo_url: str):
+        """
+        Fetch repository information from GitHub API.
+        """
+
+        owner, repo = GitHubService._parse_repo_url(repo_url)
+
+        api_url = f"https://api.github.com/repos/{owner}/{repo}"
+
+        response = requests.get(api_url, timeout=15)
+
+        response.raise_for_status()
+
+        data = response.json()
+
+        return {
+            "name": data.get("name"),
+            "full_name": data.get("full_name"),
+            "owner": data.get("owner", {}).get("login"),
+            "description": data.get("description"),
+            "language": data.get("language"),
+            "stars": data.get("stargazers_count"),
+            "forks": data.get("forks_count"),
+            "watchers": data.get("watchers_count"),
+            "open_issues": data.get("open_issues_count"),
+            "default_branch": data.get("default_branch"),
+            "updated_at": data.get("updated_at"),
+            "html_url": data.get("html_url"),
+        }
+
+    @staticmethod
     def _parse_repo_url(url: str):
-        """
-        Extract owner and repository name from URL.
-        """
 
         parsed = urlparse(url)
 
@@ -104,10 +125,6 @@ class GitHubService:
 
     @staticmethod
     def _collect_source_code(root_folder: str):
-        """
-        Reads supported source files
-        and combines them into one prompt.
-        """
 
         collected = []
         total_chars = 0
@@ -156,6 +173,7 @@ class GitHubService:
                 chunk = header + code
 
                 if total_chars + len(chunk) > GitHubService.MAX_TOTAL_CHARS:
+
                     remaining = GitHubService.MAX_TOTAL_CHARS - total_chars
 
                     collected.append(chunk[:remaining])
