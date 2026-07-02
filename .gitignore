@@ -1,30 +1,17 @@
-# Virtual Environment
 venv/
-
-# Python Cache
 __pycache__/
-**/__pycache__/
-*.py[cod]
+*.pyc
 
-# Environment Variables
+instance/
+
 .env
 
-# Database
-instance/
-*.db
-*.sqlite3
-
-# Uploads & Reports
 uploads/
 reports/
 
-# IDE
-.vscode/
+*.db
+
 .idea/
+.vscode/
 
-# OS
 .DS_Store
-Thumbs.db
-
-# Logs
-*.log
