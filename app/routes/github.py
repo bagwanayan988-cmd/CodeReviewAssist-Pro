@@ -8,6 +8,10 @@ from app.services.github_service import GitHubService
 github = Blueprint("github", __name__)
 
 
+# ==========================================
+# Analyze GitHub Repository
+# ==========================================
+
 @github.route("/github", methods=["GET", "POST"])
 @login_required
 def analyze_github():
@@ -42,20 +46,22 @@ def analyze_github():
 
             return render_template(
                 "github_result.html",
+                review_id=github_review.id,
                 repo_url=repo_url,
                 review=result["review"]
             )
 
         except Exception as e:
+
             db.session.rollback()
             flash(str(e), "danger")
 
     return render_template("github.html")
 
 
-# ==========================
+# ==========================================
 # GitHub History
-# ==========================
+# ==========================================
 
 @github.route("/github/history")
 @login_required
@@ -74,9 +80,9 @@ def history():
     )
 
 
-# ==========================
+# ==========================================
 # View Previous Analysis
-# ==========================
+# ==========================================
 
 @github.route("/github/view/<int:review_id>")
 @login_required
@@ -89,14 +95,15 @@ def view(review_id):
 
     return render_template(
         "github_result.html",
+        review_id=review.id,
         repo_url=review.repository_url,
         review=review.review
     )
 
 
-# ==========================
+# ==========================================
 # Delete Analysis
-# ==========================
+# ==========================================
 
 @github.route("/github/delete/<int:review_id>")
 @login_required

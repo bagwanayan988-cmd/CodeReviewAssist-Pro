@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<div class="row justify-content-center">
+
+<div class="col-lg-8">
+
+<div class="card shadow-lg">
+
+<div class="card-header bg-primary text-white">
+
+<h2>👤 User Profile</h2>
+
+</div>
+
+<div class="card-body">
+
+<div class="text-center mb-4">
+
+<img src="https://ui-avatars.com/api/?name={{ current_user.username }}&background=0D6EFD&color=fff&size=128"
+class="rounded-circle">
+
+<h3 class="mt-3">
+
+{{ current_user.username }}
+
+</h3>
+
+<p class="text-muted">
+
+{{ current_user.email }}
+
+</p>
+
+</div>
+
+<hr>
+
+<div class="row text-center">
+
+<div class="col-md-3">
+
+<div class="card bg-primary text-white">
+
+<div class="card-body">
+
+<h4>{{ total_reviews }}</h4>
+
+<p>Total</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card bg-success text-white">
+
+<div class="card-body">
+
+<h4>{{ ai_reviews }}</h4>
+
+<p>AI</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card bg-dark text-white">
+
+<div class="card-body">
+
+<h4>{{ github_reviews }}</h4>
+
+<p>GitHub</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card bg-warning">
+
+<div class="card-body">
+
+<h4>{{ ats_reviews }}</h4>
+
+<p>ATS</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<hr>
+
+<div class="d-grid gap-2">
+
+<a href="{{ url_for('auth.dashboard') }}"
+class="btn btn-primary">
+
+🏠 Dashboard
+
+</a>
+
+<a href="{{ url_for('auth.logout') }}"
+class="btn btn-danger">
+
+🚪 Logout
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

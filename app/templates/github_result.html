@@ -1,68 +1,71 @@
 {% extends "base.html" %}
 
-{% block title %}GitHub Analysis Result{% endblock %}
+{% block title %}GitHub Analysis{% endblock %}
 
 {% block content %}
 
 <div class="container mt-5">
 
-    <div class="card shadow-lg">
+<div class="card shadow-lg">
 
-        <div class="card-header bg-success text-white">
+<div class="card-header bg-success text-white">
 
-            <h2>✅ GitHub Repository Analysis</h2>
+<h2>🐙 GitHub Repository Analysis</h2>
 
-        </div>
+</div>
 
-        <div class="card-body">
+<div class="card-body">
 
-            <h5 class="mb-3">
-                Repository
-            </h5>
+<h5>Repository</h5>
 
-            <div class="alert alert-secondary">
+<div class="alert alert-secondary">
 
-                {{ repo_url }}
+{{ repo_url }}
 
-            </div>
+</div>
 
-            <hr>
+<hr>
 
-            <h4 class="mb-3">
+<h4>🤖 AI Review</h4>
 
-                🤖 AI Review
+<pre class="bg-light border rounded p-4"
+style="white-space:pre-wrap;font-size:15px;">{{ review }}</pre>
 
-            </h4>
+<div class="mt-4 d-flex flex-wrap gap-2">
 
-            <div class="border rounded p-4 bg-light">
+<a href="{{ url_for('github.analyze_github') }}"
+class="btn btn-primary">
 
-<pre style="white-space: pre-wrap; font-size:15px;">{{ review }}</pre>
+Analyze Another Repository
 
-            </div>
+</a>
 
-            <div class="mt-4">
+<a href="{{ url_for('github.history') }}"
+class="btn btn-dark">
 
-                <a
-                    href="{{ url_for('github.analyze_github') }}"
-                    class="btn btn-primary">
+📜 History
 
-                    Analyze Another Repository
+</a>
 
-                </a>
+<a href="{{ url_for('pdf.github_pdf', review_id=review_id) }}"
+class="btn btn-danger">
 
-                <a
-                    href="{{ url_for('auth.dashboard') }}"
-                    class="btn btn-secondary">
+📄 Download PDF
 
-                    Dashboard
+</a>
 
-                </a>
+<a href="{{ url_for('auth.dashboard') }}"
+class="btn btn-secondary">
 
-            </div>
+Dashboard
 
-        </div>
+</a>
 
-    </div>
+</div>
+
+</div>
+
+</div>
 
 </div>
 

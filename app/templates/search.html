@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}Global Search{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">🔍 Global Search</h2>
+
+    <form method="GET" action="{{ url_for('search.search_page') }}">
+
+        <div class="input-group mb-4">
+
+            <input
+                type="text"
+                name="q"
+                class="form-control"
+                placeholder="Search AI Reviews, GitHub Repositories, ATS Reports..."
+                value="{{ query }}">
+
+            <button class="btn btn-primary">
+
+                Search
+
+            </button>
+
+        </div>
+
+    </form>
+
+    {% if query %}
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-primary text-white">
+
+            🤖 AI Reviews
+
+        </div>
+
+        <div class="card-body">
+
+            {% if ai_reviews %}
+
+                {% for review in ai_reviews %}
+
+                    <div class="border rounded p-3 mb-3">
+
+                        <strong>{{ review.language|upper }}</strong><br>
+
+                        {{ review.created_at }}
+
+                        <br><br>
+
+                        <a href="{{ url_for('review.view_review', review_id=review.id) }}"
+                           class="btn btn-sm btn-primary">
+
+                            View Review
+
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>No AI reviews found.</p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-success text-white">
+
+            🐙 GitHub Reviews
+
+        </div>
+
+        <div class="card-body">
+
+            {% if github_reviews %}
+
+                {% for review in github_reviews %}
+
+                    <div class="border rounded p-3 mb-3">
+
+                        <strong>{{ review.repository_name }}</strong><br>
+
+                        {{ review.created_at }}
+
+                        <br><br>
+
+                        <a href="{{ url_for('github.view', review_id=review.id) }}"
+                           class="btn btn-sm btn-success">
+
+                            View Analysis
+
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>No GitHub analyses found.</p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-header bg-warning">
+
+            📄 ATS Reports
+
+        </div>
+
+        <div class="card-body">
+
+            {% if ats_reviews %}
+
+                {% for review in ats_reviews %}
+
+                    <div class="border rounded p-3 mb-3">
+
+                        <strong>{{ review.filename }}</strong><br>
+
+                        ATS Score:
+                        {{ review.ats_score }}/100
+
+                        <br><br>
+
+                        <a href="{{ url_for('ats.history') }}"
+                           class="btn btn-sm btn-warning">
+
+                            Open History
+
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>No ATS reports found.</p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

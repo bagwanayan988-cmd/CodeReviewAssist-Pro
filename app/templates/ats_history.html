@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Resume ATS History{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3 class="mb-0">
+                📄 Resume ATS History
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if reviews %}
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Resume</th>
+
+                        <th>ATS Score</th>
+
+                        <th>Date</th>
+
+                        <th width="220">Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for review in reviews %}
+
+                    <tr>
+
+                        <td>{{ review.id }}</td>
+
+                        <td>{{ review.filename }}</td>
+
+                        <td>
+
+                            {% if review.ats_score >= 80 %}
+
+                                <span class="badge bg-success">
+                                    {{ review.ats_score }}/100
+                                </span>
+
+                            {% elif review.ats_score >= 60 %}
+
+                                <span class="badge bg-warning text-dark">
+                                    {{ review.ats_score }}/100
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+                                    {{ review.ats_score }}/100
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {{ review.created_at.strftime('%d-%m-%Y %H:%M') }}
+
+                        </td>
+
+                        <td>
+
+                            <a href="{{ url_for('ats.view', review_id=review.id) }}"
+                               class="btn btn-primary btn-sm">
+
+                                👁 View
+
+                            </a>
+
+                            <a href="{{ url_for('ats.delete', review_id=review.id) }}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Delete this ATS report?');">
+
+                                🗑 Delete
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+                <div class="alert alert-info text-center">
+
+                    <h5>No ATS Reports Found</h5>
+
+                    <p>Upload your first resume to generate an ATS report.</p>
+
+                    <a href="{{ url_for('ats.resume') }}"
+                       class="btn btn-success">
+
+                        📄 Analyze Resume
+
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

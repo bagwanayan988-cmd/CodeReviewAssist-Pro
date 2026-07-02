@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}CodeReview Assist Pro AI{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+<div class="text-center">
+
+<h1 class="display-3 fw-bold">
+
+🚀 CodeReview Assist Pro AI
+
+</h1>
+
+<p class="lead mt-4">
+
+AI Powered Code Review • GitHub Analysis • Resume ATS
+
+</p>
+
+<div class="mt-4">
+
+{% if current_user.is_authenticated %}
+
+<a href="{{ url_for('auth.dashboard') }}"
+class="btn btn-primary btn-lg">
+
+Go to Dashboard
+
+</a>
+
+{% else %}
+
+<a href="{{ url_for('auth.login') }}"
+class="btn btn-primary btn-lg me-3">
+
+Login
+
+</a>
+
+<a href="{{ url_for('auth.register') }}"
+class="btn btn-success btn-lg">
+
+Register
+
+</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+<hr class="my-5">
+
+<div class="row g-4">
+
+<div class="col-md-4">
+
+<div class="card shadow h-100">
+
+<div class="card-body text-center">
+
+<h1>🤖</h1>
+
+<h3>AI Code Review</h3>
+
+<p>
+
+Upload your code and receive a professional AI review.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card shadow h-100">
+
+<div class="card-body text-center">
+
+<h1>🐙</h1>
+
+<h3>GitHub Analyzer</h3>
+
+<p>
+
+Analyze any public GitHub repository using AI.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card shadow h-100">
+
+<div class="card-body text-center">
+
+<h1>📄</h1>
+
+<h3>Resume ATS</h3>
+
+<p>
+
+Upload your resume and receive an ATS score.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<hr class="my-5">
+
+<div class="row text-center">
+
+<div class="col-md-3">
+
+<h2 class="text-primary">AI</h2>
+
+<p>Code Analysis</p>
+
+</div>
+
+<div class="col-md-3">
+
+<h2 class="text-success">GitHub</h2>
+
+<p>Repository Reviews</p>
+
+</div>
+
+<div class="col-md-3">
+
+<h2 class="text-warning">ATS</h2>
+
+<p>Resume Screening</p>
+
+</div>
+
+<div class="col-md-3">
+
+<h2 class="text-danger">PDF</h2>
+
+<p>Download Reports</p>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

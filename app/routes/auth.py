@@ -15,6 +15,7 @@ from app.extensions import db
 from app.models.user import User
 from app.models.review import Review
 from app.models.github_review import GitHubReview
+from app.models.ats_review import ATSReview
 
 auth = Blueprint("auth", __name__)
 
@@ -82,23 +83,27 @@ def login():
 @login_required
 def dashboard():
 
-    # AI Reviews
-    ai_reviews = (
-        Review.query
-        .filter_by(user_id=current_user.id)
-        .all()
-    )
+    ai_reviews = Review.query.filter_by(
+        user_id=current_user.id
+    ).all()
 
-    # GitHub Reviews
-    github_reviews = (
-        GitHubReview.query
-        .filter_by(user_id=current_user.id)
-        .all()
-    )
+    github_reviews = GitHubReview.query.filter_by(
+        user_id=current_user.id
+    ).all()
 
-    total_reviews = len(ai_reviews) + len(github_reviews)
+    ats_reviews = ATSReview.query.filter_by(
+        user_id=current_user.id
+    ).all()
+
+    total_reviews = (
+        len(ai_reviews)
+        + len(github_reviews)
+        + len(ats_reviews)
+    )
 
     github_projects = len(github_reviews)
+
+    ats_reports = len(ats_reviews)
 
     average_score = "--"
 
@@ -107,6 +112,7 @@ def dashboard():
         total_reviews=total_reviews,
         ai_reviews=len(ai_reviews),
         github_projects=github_projects,
+        ats_reports=ats_reports,
         average_score=average_score,
         recent_reviews=ai_reviews[:5]
     )
